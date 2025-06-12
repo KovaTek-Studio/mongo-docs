@@ -13,11 +13,6 @@
 - `transactionId`: str
 - `createdAt`: str
 
-## 🗂 `collectiontest`
-- Estimated: 0 docs
-- Sampled: 0 docs
-### Fields:
-
 ## 🗂 `roles`
 - Estimated: 3 docs
 - Sampled: 3 docs
