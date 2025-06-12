@@ -1,4 +1,7 @@
 name: Docs MongoDB → GitHub Pages
+#  ── permiso de escritura al token por defecto ──
+permissions:
+  contents: write
 
 on:
   push:
@@ -12,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true # <-- Asegura que use el token interno con los permisos indicados arriba
 
       - name: Setup Python
         uses: actions/setup-python@v4
