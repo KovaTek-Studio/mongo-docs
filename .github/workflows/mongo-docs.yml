@@ -57,7 +57,7 @@ jobs:
           cp docs/mongodb_schema.html _site/index.html
           
           # Copiar el markdown también (como backup/alternativa)
-          cp docs/mongodb_schema.md _site/schema.md
+          # cp docs/mongodb_schema.md _site/schema.md
           
           # Crear una página simple de navegación
           cat > _site/navigation.html << 'EOF'
