@@ -350,7 +350,7 @@ def generate_html_report(schema, db_name):
 <body>
     <div class="container">
         <div class="header fade-in">
-            <h1><i class="fas fa-database"></i> MongoDB Schema</h1>
+            <h1><i class="fas fa-database"></i> Kovatek - MongoDB Docs</h1>
             <p class="subtitle">Documentación automática de la base de datos <strong>{db_name}</strong></p>
             <div class="db-info">
                 <div class="info-card">
@@ -437,7 +437,7 @@ def generate_html_report(schema, db_name):
 
         <div class="footer">
             <p>📊 Generado automáticamente el {datetime.now().strftime('%d de %B de %Y a las %H:%M')} | 
-            <i class="fas fa-code"></i> Powered by Python & MongoDB</p>
+            <i class="fas fa-code"></i> Powered by KovaTek Studio</p>
         </div>
     </div>
 
