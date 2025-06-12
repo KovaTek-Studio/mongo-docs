@@ -1,8 +1,8 @@
-name: Generar documentación MongoDB y publicarla en GitHub Pages
+name: Docs MongoDB → GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -10,30 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout del repositorio
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Instalar dependencias
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generar documentación desde MongoDB
+      - name: Generate Markdown docs
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-        run: |
-          mongodoc --uri="$MONGODB_URI" --output docs/mongodb_schema.md
+        run: python generate_docs.py
 
-      - name: Convertir Markdown a HTML
+      - name: Convert MD to HTML
         run: |
           echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>MongoDB Docs</title></head><body><pre>" > index.html
           cat docs/mongodb_schema.md >> index.html
           echo "</pre></body></html>" >> index.html
 
-      - name: Commit y push del HTML generado
+      - name: Commit & Push site
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add docs/mongodb_schema.md index.html
-          git commit -m "📝 Publicar documentación MongoDB como HTML" || echo "Sin cambios"
-          git push || echo "Nada que pushear"
+          git commit -m "📄 Update MongoDB Docs" || echo "No changes"
+          git push || echo "Nothing to push"
