@@ -12,7 +12,6 @@ on:
   repository_dispatch:
     types: [ mongo_schema_update ]
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -50,66 +49,32 @@ jobs:
 
       - name: Prepare GitHub Pages deployment
         run: |
-          # Crear directorio para GitHub Pages
           mkdir -p _site
-          
-          # Copiar el HTML moderno como página principal
-          cp docs/mongodb_schema.html _site/index.html
-          
-          # Copiar el markdown también (como backup/alternativa)
+          cp docs/index.html _site/index.html
+          # Copia opcional del Markdown como backup:
           # cp docs/mongodb_schema.md _site/schema.md
-          
-          # Crear una página simple de navegación
+
+          # Página de navegación
           cat > _site/navigation.html << 'EOF'
           <!DOCTYPE html>
           <html lang="es">
           <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>MongoDB Documentation</title>
-              <style>
-                  body {
-                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                      max-width: 800px;
-                      margin: 2rem auto;
-                      padding: 2rem;
-                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                      min-height: 100vh;
-                  }
-                  .container {
-                      background: white;
-                      padding: 2rem;
-                      border-radius: 12px;
-                      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-                  }
-                  h1 { color: #2d3748; }
-                  .nav-link {
-                      display: inline-block;
-                      padding: 1rem 2rem;
-                      margin: 0.5rem;
-                      background: linear-gradient(135deg, #667eea, #764ba2);
-                      color: white;
-                      text-decoration: none;
-                      border-radius: 8px;
-                      transition: transform 0.2s;
-                  }
-                  .nav-link:hover {
-                      transform: translateY(-2px);
-                  }
-              </style>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MongoDB Docs</title>
+            <style>
+              body { font-family: sans-serif; padding: 2rem; background:#f0f0f0; }
+              .container { max-width: 600px; margin:auto; background:white; padding:2rem; border-radius:8px; }
+              a { display:block; margin:1rem 0; color:#346; text-decoration:none; }
+            </style>
           </head>
           <body>
-              <div class="container">
-                  <h1>📊 MongoDB Documentation</h1>
-                  <p>Documentación automática de la base de datos MongoDB generada el $(date '+%d/%m/%Y %H:%M').</p>
-                  
-                  <h2>📋 Formatos disponibles:</h2>
-                  <a href="index.html" class="nav-link">📄 Documentación HTML (Recomendado)</a>
-                  <a href="schema.md" class="nav-link">📝 Documentación Markdown</a>
-                  
-                  <h3>🔄 Última actualización:</h3>
-                  <p><strong>$(date '+%d de %B de %Y a las %H:%M UTC')</strong></p>
-              </div>
+            <div class="container">
+              <h1>📊 MongoDB Documentation</h1>
+              <p>Selecciona el formato:</p>
+              <a href="index.html">📄 HTML (Recomendado)</a>
+              <a href="schema.md">📝 Markdown</a>
+            </div>
           </body>
           </html>
           EOF
@@ -128,18 +93,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/
-          git commit -m "📄 Update MongoDB Documentation - $(date '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
+          git commit -m "📄 Update MongoDB Docs - $(date '+%Y-%m-%d %H:%M:%S UTC')" || echo "No changes"
           git push || echo "Nothing to push"
 
       - name: Create summary
         run: |
           echo "## 📊 MongoDB Documentation Updated" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Documentation generated successfully!**" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📄 **Available formats:**" >> $GITHUB_STEP_SUMMARY
-          echo "- [Modern HTML Documentation](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Markdown Documentation](${{ steps.deployment.outputs.page_url }}schema.md)" >> $GITHUB_STEP_SUMMARY
-          echo "- [Navigation Page](${{ steps.deployment.outputs.page_url }}navigation.html)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🕒 **Generated:** $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ [HTML](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ [Navigation Page](${{ steps.deployment.outputs.page_url }}navigation.html)" >> $GITHUB_STEP_SUMMARY
