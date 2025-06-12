@@ -26,20 +26,6 @@
 - `name`: str
 - `permissions`: list
 
-## 🗂 `contacts`
-- Estimated: 1 docs
-- Sampled: 1 docs
-### Fields:
-- `_id`: ObjectId
-- `telefono`: str
-- `email`: str
-- `instagram_url`: str
-- `facebook_url`: str
-- `whatsapp_url`: str
-- `tiktok_url`: str
-- `linkedin_url`: str
-- `direccion`: str
-
 ## 🗂 `users`
 - Estimated: 2 docs
 - Sampled: 2 docs
