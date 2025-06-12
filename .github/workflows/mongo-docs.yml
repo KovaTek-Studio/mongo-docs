@@ -19,8 +19,10 @@ jobs:
           pip install mongodoc pymongo
 
       - name: Generar documentación desde MongoDB
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
-          mongodoc --uri="${{ secrets.MONGODB_URI }}" --output docs/mongodb_schema.md
+          mongodoc --uri="$MONGODB_URI" --output docs/mongodb_schema.md
 
       - name: Convertir Markdown a HTML
         run: |
