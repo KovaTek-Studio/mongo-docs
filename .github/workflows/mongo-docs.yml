@@ -50,69 +50,9 @@ jobs:
 
       - name: Prepare GitHub Pages deployment
         run: |
-          # Crear directorio para GitHub Pages
-          mkdir -p _site
-          
-          # Copiar el HTML moderno como página principal
-          cp docs/mongodb_schema.html _site/index.html
-          
-          # Copiar el markdown también (como backup/alternativa)
-          cp docs/mongodb_schema.md _site/schema.md
-          
-          # Crear una página simple de navegación
-          cat > _site/navigation.html << 'EOF'
-          <!DOCTYPE html>
-          <html lang="es">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>MongoDB Documentation</title>
-              <style>
-                  body {
-                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                      max-width: 800px;
-                      margin: 2rem auto;
-                      padding: 2rem;
-                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                      min-height: 100vh;
-                  }
-                  .container {
-                      background: white;
-                      padding: 2rem;
-                      border-radius: 12px;
-                      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-                  }
-                  h1 { color: #2d3748; }
-                  .nav-link {
-                      display: inline-block;
-                      padding: 1rem 2rem;
-                      margin: 0.5rem;
-                      background: linear-gradient(135deg, #667eea, #764ba2);
-                      color: white;
-                      text-decoration: none;
-                      border-radius: 8px;
-                      transition: transform 0.2s;
-                  }
-                  .nav-link:hover {
-                      transform: translateY(-2px);
-                  }
-              </style>
-          </head>
-          <body>
-              <div class="container">
-                  <h1>📊 MongoDB Documentation</h1>
-                  <p>Documentación automática de la base de datos MongoDB generada el $(date '+%d/%m/%Y %H:%M').</p>
-                  
-                  <h2>📋 Formatos disponibles:</h2>
-                  <a href="index.html" class="nav-link">📄 Documentación HTML (Recomendado)</a>
-                  <a href="schema.md" class="nav-link">📝 Documentación Markdown</a>
-                  
-                  <h3>🔄 Última actualización:</h3>
-                  <p><strong>$(date '+%d de %B de %Y a las %H:%M UTC')</strong></p>
-              </div>
-          </body>
-          </html>
-          EOF
+          # El HTML ya se genera como docs/index.html
+          # Solo copiamos el directorio docs completo
+          cp -r docs/ _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -137,9 +77,6 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ **Documentation generated successfully!**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📄 **Available formats:**" >> $GITHUB_STEP_SUMMARY
-          echo "- [Modern HTML Documentation](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [Markdown Documentation](${{ steps.deployment.outputs.page_url }}schema.md)" >> $GITHUB_STEP_SUMMARY
-          echo "- [Navigation Page](${{ steps.deployment.outputs.page_url }}navigation.html)" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **View Documentation:** [MongoDB Schema Documentation](${{ steps.deployment.outputs.page_url }})" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "🕒 **Generated:** $(date '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY

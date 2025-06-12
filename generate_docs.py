@@ -350,7 +350,7 @@ def generate_html_report(schema, db_name):
 <body>
     <div class="container">
         <div class="header fade-in">
-            <h1><i class="fas fa-database"></i> Kovatek MongoDB Docs</h1>
+            <h1><i class="fas fa-database"></i> MongoDB Schema</h1>
             <p class="subtitle">Documentación automática de la base de datos <strong>{db_name}</strong></p>
             <div class="db-info">
                 <div class="info-card">
@@ -437,7 +437,7 @@ def generate_html_report(schema, db_name):
 
         <div class="footer">
             <p>📊 Generado automáticamente el {datetime.now().strftime('%d de %B de %Y a las %H:%M')} | 
-            <i class="fas fa-code"></i> Powered by KovaTek Studio</p>
+            <i class="fas fa-code"></i> Powered by Python & MongoDB</p>
         </div>
     </div>
 
@@ -490,26 +490,13 @@ def generate_html_report(schema, db_name):
 
 schema = [analyze(c) for c in db.list_collection_names()]
 
-# Generar tanto Markdown como HTML
+# Generar solo HTML
 os.makedirs("docs", exist_ok=True)
 
-# Markdown output (original)
-with open("docs/mongodb_schema.md", "w", encoding="utf-8") as f:
-    f.write(f"# MongoDB Schema: `{DB_NAME}`\n\n")
-    for s in schema:
-        f.write(f"## 🗂 `{s['col']}`\n")
-        f.write(f"- Estimated: {s['estimated']} docs\n")
-        f.write(f"- Sampled: {s['sampled']} docs\n")
-        f.write("### Fields:\n")
-        for fld, types in s["fields"].items():
-            f.write(f"- `{fld}`: {', '.join(types)}\n")
-        f.write("\n")
-
-# HTML output (nuevo)
+# HTML output
 html_content = generate_html_report(schema, DB_NAME)
-with open("docs/mongodb_schema.html", "w", encoding="utf-8") as f:
+with open("docs/index.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("✅ docs/mongodb_schema.md generated")
-print("✅ docs/mongodb_schema.html generated")
-print(f"🌐 Open docs/mongodb_schema.html in your browser to view the modern documentation")
+print("✅ docs/index.html generated")
+print(f"🌐 Open docs/index.html in your browser to view the MongoDB documentation")
